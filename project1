@@ -1,0 +1,162 @@
+from PyQt5.QtCore import Qt
+from PyQt5.QtWidgets import*
+
+app = QApplication([])
+app.setStyleSheet('''QWidget
+                    {background:#DF9167;
+                    font-size: 8pt;
+                    color:#6B311E;
+                    margin: 10pt;
+                    text-align: center;}''')
+
+window = QWidget()
+window.setWindowTitle('Анкета')
+window.resize(700, 400)
+
+v1 = QVBoxLayout()
+h1 = QHBoxLayout()
+h2 = QHBoxLayout()
+
+anketa = QLabel('Моя анкета')
+v1.addWidget(anketa)
+
+name = QLabel("Ім'я")
+name_field = QLineEdit("")
+v1.addWidget(name)
+v1.addWidget(name_field)
+
+sex = QLabel('Стать')
+sex_male = QRadioButton('чоловіча')
+sex_female = QRadioButton('жіноча')
+sex_other = QRadioButton('інша')
+v1.addWidget(sex)
+v1.addLayout(h1)
+h1.addWidget(sex_female)
+h1.addWidget(sex_male)
+h1.addWidget(sex_other)
+
+age = QLabel('Знак зодіака')
+age_field = QComboBox()
+age_field.addItems(['Овен', 'Телець', 'Близнюки', 'Рак', 'Лев', 'Діва', 'Терези', 'Скорпіон', 'Стрелець', 'Козоріг', 'Водолій', 'Риби'])
+v1.addWidget(age)
+v1.addWidget(age_field)
+
+
+c = QLabel('Рід занять')
+c1 = QCheckBox('Учень')
+c2 = QCheckBox('Студент')
+c3 = QCheckBox('Практикант') 
+c4 = QCheckBox('Працівник') 
+v1.addWidget(c)
+v1.addLayout(h2)
+h2.addWidget(c1)
+h2.addWidget(c2)
+h2.addWidget(c3)
+h2.addWidget(c4)
+
+town = QLabel('Місце проживання')
+town_field = QLineEdit('')
+v1.addWidget(town)
+v1.addWidget(town_field)
+
+connect = QLabel("Способи зв'язку")
+connect_phone = QLabel('Телефон')
+connect_inst = QLabel('Інстаграм')
+connect_teg = QLabel('Телеграм')
+
+connect_phone_field = QLineEdit('+380 ')
+connect_inst_field = QLineEdit('@')
+connect_teg_field = QLineEdit('@')
+
+v1.addWidget(connect)
+h3 = QHBoxLayout()
+h3.addWidget(connect_phone)
+h3.addWidget(connect_inst)
+h3.addWidget(connect_teg)
+v1.addLayout(h3)
+
+h4 = QHBoxLayout()
+h4.addWidget(connect_phone_field)
+h4.addWidget(connect_inst_field)
+h4.addWidget(connect_teg_field)
+v1.addLayout(h4)
+
+
+dop_info = QLabel('Додаткова інформація про себе')
+dop_info_field = QTextEdit('')
+v1.addWidget(dop_info)
+v1.addWidget(dop_info_field)
+
+result = QPushButton('Результат')
+v1.addWidget(result)
+
+m = 1
+index = 0
+def hello():
+    global index
+    info_win = QMessageBox()
+    info_win.setWindowTitle('Результат')
+    info_win.setText('Дякуємо, ваша анкета заповнена \n'+name_field.text())
+    info_win.exec_()
+    with open("1.txt", 'w', encoding='utf-8') as file:
+        #file.write(text1.toPlainText()+'\n')
+        file.write("Ім'я: "+name_field.text()+'\n')
+        file.write("Місце проживання: "+town_field.text()+'\n')
+        file.write("Номер телефону: "+connect_phone_field.text()+'\n')
+        file.write("Інстаграм: "+connect_inst_field.text()+'\n')
+        file.write("Телеграм: "+connect_teg_field.text()+'\n')
+        if sex_female.isChecked():
+            file.write('Стать: '+sex_female.text()+'\n')
+        if sex_male.isChecked():
+            file.write('Стать: '+sex_male.text()+'\n')
+        if sex_other.isChecked():
+            file.write('Стать: '+sex_other.text()+'\n')
+
+        file.write('Рід занятть: ')
+        if c1.isChecked():
+            file.write(c1.text()+' ')
+        if c2.isChecked():
+            file.write(c2.text()+' ')
+        if c3.isChecked():
+            file.write(c3.text()+' ')
+        if c4.isChecked():
+            file.write(c4.text()+' ')
+        file.write('\n')
+        file.write('Знак зодіаку: ')
+        if age_field.currentIndex()==0:
+            file.write(age_field.itemText(0))
+        elif age_field.currentIndex()==1:
+            file.write(age_field.itemText(1))
+        elif age_field.currentIndex()==2:
+            file.write(age_field.itemText(2))
+        elif age_field.currentIndex()==3:
+            file.write(age_field.itemText(3))
+        elif age_field.currentIndex()==4:
+            file.write(age_field.itemText(4))
+        elif age_field.currentIndex()==5:
+            file.write(age_field.itemText(5))
+        elif age_field.currentIndex()==6:
+            file.write(age_field.itemText(6))
+        elif age_field.currentIndex()==7:
+            file.write(age_field.itemText(7))
+        elif age_field.currentIndex()==8:
+            file.write(age_field.itemText(8))
+        elif age_field.currentIndex()==9:
+            file.write(age_field.itemText(9))
+        elif age_field.currentIndex()==10:
+            file.write(age_field.itemText(10))
+        elif age_field.currentIndex()==11:
+            file.write(age_field.itemText(11))
+        file.write('\n')
+        file.write("Додаткова інформація про себе: "+dop_info_field.text()+'\n')
+
+        file.write('\n')
+        index+=1
+        
+    
+
+
+result.clicked.connect(hello)
+window.setLayout(v1)
+window.show()
+app.exec_()
